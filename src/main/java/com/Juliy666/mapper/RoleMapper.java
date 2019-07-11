@@ -21,4 +21,6 @@ public interface RoleMapper {
     
 	/* 打破角色和权限之间的关系 */
 	void deletePermissionRel(Long rid);
+
+	List<Long> getRoleWithEid(Long id);
 }

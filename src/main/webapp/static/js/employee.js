@@ -1,5 +1,5 @@
 $(function () {
-    /*员式数据列表*/
+    /*员工数据列表*/
     $("#dg").datagrid({
         url: contextPath + "/employeeList",
         columns:[[
@@ -59,7 +59,8 @@ $(function () {
                 var url;
                 if(id){
                     /*编辑*/
-                    url = "updateEmployee";
+                    url ="updateEmployee";
+                    
                 }else {
                     /*添加*/
                     url= "saveEmployee";
@@ -68,6 +69,14 @@ $(function () {
                 /*提交表单*/
                 $("#employeeForm").form("submit",{
                     url:url,
+                    onSubmit:function(param){
+                        /*获取选中的角色*/
+                       var values =  $("#role").combobox("getValues");
+                       for(var i = 0; i < values.length; i++){
+                           var rid  =  values[i];
+                           param["roles["+i+"].rid"] = rid;
+                       }
+                    },
                     success:function (data) {
                         /*console.log(data);*/
                         data = $.parseJSON(data);
@@ -123,7 +132,12 @@ $(function () {
         rowData["department.id"] = rowData["department"].id;
         /*回显管理员*/
         rowData["admin"] = rowData["admin"]+"";
-
+        /*根据当前用户的id,查出对应的角色*/
+        /*console.log("/getRoleByEid?id="+rowData.id);*/
+        $.get("/getRoleByEid?id="+rowData.id,function (data) {
+            /*设置下拉列表数据回显*/
+            $("#role").combobox("setValues",data);
+        });
         /*选中数据的回示*/
         $("#employeeForm").form("load",rowData);
 
@@ -171,6 +185,26 @@ $(function () {
         }
 
     });
+    /*选择角色下拉列表*/
+    $("#role").combobox({
+        width:150,
+        panelHeight:'auto',
+        editable:false,
+        url:'roleList',
+        textField:'rname',
+        valueField:'rid',
+        multiple:true,
+        onLoadSuccess:function () { /*数据加载完毕之后回调*/
+            $("#role").each(function(i){
+                var span = $(this).siblings("span")[i];
+                var targetInput = $(span).find("input:first");
+                if(targetInput){
+                    $(targetInput).attr("placeholder", $(this).attr("placeholder"));
+                }
+            });
+        }
+    })
+
     /*设置离职按钮点击*/
     $("#delete").click(function () {
         /*获取当前选中的行*/

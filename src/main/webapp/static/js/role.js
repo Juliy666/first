@@ -94,7 +94,7 @@ $(function () {
         height:400,
         fitColumns:true,
         singleSelect:true,
-        url:'/permissionList',
+        url: contextPath + '/permissionList',
         columns:[[
             {field:'pname',title:'权限名称',width:100,align:'center'},
         ]],
@@ -142,7 +142,7 @@ $(function () {
     $("#edit").click(function () {
         /*获取当前选中的行*/
         var rowData = $("#role_dg").datagrid("getSelected");
-        console.log(rowData);
+        /*console.log(rowData);*/
         if(!rowData){
             $.messager.alert("提示","选择一行数据进行编辑");
             return;
@@ -150,7 +150,9 @@ $(function () {
 
         /*加载当前角色下的权限*/
         var options =  $("#role_data2").datagrid("options");
-        options.url = "/getPermissionByRid?rid="+rowData.rid;
+        /*console.log(options);*/
+        options.url ="/getPermissionByRid?rid="+rowData.rid;
+        /*console.log(options.url);*/
         /*重新加载数据*/
         $("#role_data2").datagrid("load");
 
@@ -166,12 +168,13 @@ $(function () {
     $("#remove").click(function () {
         /*获取当前选中的行*/
         var rowData = $("#role_dg").datagrid("getSelected");
-        console.log(rowData);
+        /*console.log(rowData);*/
         if(!rowData){
             $.messager.alert("提示","选择一行数据进行删除");
             return;
         }
-        $.get("deleteRole?rid="+rowData.rid,function (data) {
+        /*console.log(contextPath + "/deleteRole?rid="+rowData.rid);*/
+        $.get("/deleteRole?rid="+rowData.rid,function (data) {
             if (data.success){
                 $.messager.alert("温馨提示",data.msg);
                 /*重新加载数据表格*/

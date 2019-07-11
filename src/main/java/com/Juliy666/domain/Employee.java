@@ -6,7 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /*@Setter@Getter@ToString*/
 public class Employee {
@@ -29,6 +31,8 @@ public class Employee {
     private Boolean admin;
 
     private Department department;
+    
+    private List<Role> roles=new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -102,12 +106,22 @@ public class Employee {
 		this.department = department;
 	}
 
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", username=" + username + ", password=" + password + ", inputtime=" + inputtime
 				+ ", tel=" + tel + ", email=" + email + ", state=" + state + ", admin=" + admin + ", department="
-				+ department + "]";
+				+ department + ", roles=" + roles + "]";
 	}
+
+	
     
 
 

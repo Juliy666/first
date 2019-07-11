@@ -13,4 +13,7 @@ public interface PermissionMapper {
     List<Permission> selectAll();
 
     int updateByPrimaryKey(Permission record);
+    
+	/* 通过角色查询rid查询出权限 */
+	List<Permission> selectPermissionByRid(Long rid);
 }

@@ -3,6 +3,7 @@ package com.Juliy666.service.impl;
 import com.Juliy666.domain.Employee;
 import com.Juliy666.domain.PageListRes;
 import com.Juliy666.domain.QueryVo;
+import com.Juliy666.domain.Role;
 import com.Juliy666.mapper.EmployeeMapper;
 import com.Juliy666.service.EmployeeService;
 import com.github.pagehelper.Page;
@@ -37,13 +38,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     /*保存员工*/
     @Override
     public void saveEmployee(Employee employee) {
+		/* 保存员工 */
         employeeMapper.insert(employee);
+		/* 保存角色与员工关系的关系表,就可以根据员工查出对应的角色了 */
+		/* 取出每个角色 */
+        System.out.println(employee.getRoles());
+        for (Role role : employee.getRoles()) {
+            employeeMapper.insertEmployeeAndRoleRel(employee.getId(),role.getRid());
+        }
     }
 
     /*更新员工*/
     @Override
     public void updateEmployee(Employee employee) {
+		/* 打破角色和员工的关系 */
+    	employeeMapper.deleteRoleRel(employee.getId());
+		/* 更新员工 */
         employeeMapper.updateByPrimaryKey(employee);
+		/* 重新建立角色和员工的关系 */
+        for (Role role : employee.getRoles()) {
+            employeeMapper.insertEmployeeAndRoleRel(employee.getId(),role.getRid());
+        }
     }
 
     /*更新员工状态*/

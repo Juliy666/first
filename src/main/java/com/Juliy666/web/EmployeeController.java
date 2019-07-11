@@ -27,7 +27,6 @@ public class EmployeeController {
     @ResponseBody
     public PageListRes employeeList(QueryVo vo){
         System.out.println(vo);
-        System.out.println("来到了employeeList");
         PageListRes pageListRes = employeeService.getEmployee(vo);
         System.out.println(pageListRes);
         return pageListRes;
@@ -38,6 +37,7 @@ public class EmployeeController {
     @RequestMapping("/saveEmployee")
     @ResponseBody
     public AjaxRes saveEmployee(Employee employee){
+    	System.out.println(employee);
         AjaxRes ajaxRes = new AjaxRes();
         try {
             /*调用业务层,保存用户*/

@@ -56,4 +56,23 @@ public class RoleServiceImpl implements RoleService {
             roleMapper.insertRoleAndPermissionRel(role.getRid(),permission.getPid());
     	}
 	}
+	
+	/* 删除角色业务 */
+	@Override
+	public void deleteRole(Long rid) {
+		/*1删除角色的权限*/
+		roleMapper.deletePermissionRel(rid);
+		/* 2删除角色 */
+		roleMapper.deleteByPrimaryKey(rid);
+	}
+	@Override
+	public List<Role> roleList() {
+		List<Role> roles = roleMapper.selectAll();
+		return roles;
+	}
+	@Override
+	public List<Long> getRoleByEid(Long id) {
+		
+		return roleMapper.getRoleWithEid(id);
+	}
 }

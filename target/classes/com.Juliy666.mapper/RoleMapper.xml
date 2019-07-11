@@ -39,4 +39,8 @@
     select rid, rnum, rname
     from role
   </select>
+  <!-- 根据当前用户的id,查出对应的角色 -->
+  <select id="getRoleWithEid" resultType="java.lang.Long">
+  	select rid from employee_role_rel where eid=#{id}
+  </select>
 </mapper>

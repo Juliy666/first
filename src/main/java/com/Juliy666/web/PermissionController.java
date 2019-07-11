@@ -20,4 +20,13 @@ public class PermissionController {
         List<Permission> permissions = permissionService.getPermission();
         return permissions;
     }
+    
+	/* 根据角色查询对应的权限 */
+    @RequestMapping("/getPermissionByRid")
+    @ResponseBody
+    public List<Permission> getPermissionByRid(Long rid) {
+    	List<Permission> permissions = permissionService.getPermission(rid);
+    	System.out.println(permissions);
+    	return permissions;
+    }
 }

@@ -5,6 +5,8 @@ import com.Juliy666.domain.QueryVo;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface EmployeeMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -17,4 +19,9 @@ public interface EmployeeMapper {
     int updateByPrimaryKey(Employee record);
 
     void updateState(long id);
+
+    /*保存员工和角色 关系*/
+    void insertEmployeeAndRoleRel(@Param("id") Long id, @Param("rid") Long rid);
+    /* 打破角色和员工的关系 */
+	void deleteRoleRel(Long id);
 }

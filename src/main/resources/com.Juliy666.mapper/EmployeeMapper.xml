@@ -18,7 +18,13 @@
     delete from employee
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.Juliy666.domain.Employee" >
+   <!-- 打破角色和员工的关系 --> 
+   <delete id="deleteRoleRel">
+   delete from employee_role_rel where eid=#{id}
+   </delete>
+  
+  <!-- 添加员工 -->
+  <insert id="insert" parameterType="com.Juliy666.domain.Employee" useGeneratedKeys="true"  keyProperty="id">
     insert into employee (
     id,
     username,
@@ -32,6 +38,10 @@
     values (#{id}, #{username},#{password}, #{inputtime},
       #{tel}, #{email}, #{state}, #{admin},
       #{department.id})
+  </insert>
+   <!-- 保存员工和角色的关系表  -->
+  <insert id="insertEmployeeAndRoleRel">
+  	insert into employee_role_rel(eid,rid) values (#{id},#{rid})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.Juliy666.domain.Employee" >
     update employee

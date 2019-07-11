@@ -18,12 +18,16 @@
     <!--加载数据库属性文件-->
     <context:property-placeholder location="classpath:db.properties"/>
     <!--连接池-->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init"
+          destroy-method="close">
+        <property name="initialSize" value="5"/>
         <property name="driverClassName" value="${jdbc.driver}" />
         <!--属性文件当中的名称不能和name名称一样-->
         <property name="url" value="${jdbc.url}" />
         <property name="username" value="${jdbc.username}" />
         <property name="password" value="${jdbc.password}" />
+
     </bean>
     <!-- 配置事务管理器 -->
     <bean id="transactionManager"
@@ -44,7 +48,7 @@
     </bean>
 
     <!-- 配置Mapper接口扫描 -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
         <!-- 配置Mapper扫描包 -->
         <property name="basePackage" value="com.Juliy666.mapper" />
     </bean>
